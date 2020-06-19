@@ -1,0 +1,9 @@
+---
+- hosts: master
+  become: yes
+  tasks:
+  - name: fetch
+    fetch:
+         src: /home/ubuntu/info.txt
+         dest: /home/ubuntu/kubernetes/
+         flat: yes
