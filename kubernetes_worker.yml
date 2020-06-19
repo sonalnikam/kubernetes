@@ -1,0 +1,61 @@
+---
+- hosts: worker
+  become: yes
+  tasks:
+  - name: upadte repo
+    shell: sudo apt-get update
+  - name: docker installation
+    apt:
+       name: docker.io
+       state: latest
+    tags: docker
+  - name: enabling docker
+    shell: sudo systemctl enable docker
+    tags: enable
+  - name: start docker
+    shell: sudo systemctl start docker
+    tags: start
+  - name: adding key
+    shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+    tags: add
+  - name: curl
+    shell: sudo apt-get install curl
+  - name: addling repo
+    shell: sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    tags: repo
+  - name: installing kubernetes
+    apt:
+       name: kubeadm
+       state: latest
+    tags: k1
+  - name: installing kubernetes
+    apt:
+       name: kubelet
+       state: latest
+    tags: k2
+  - name: installing kubernetes
+    apt:
+       name: kubectl
+       state: latest
+    tags: k3
+  - name: kubernetes
+    shell: sudo apt-mark hold kubeadm kubelet kubectl
+    tags: hold
+  - name: swap
+    shell: sudo swapoff –a
+    ignore_errors: yes
+  - name: hostname
+    shell: sudo hostnamectl set-hostname worker01
+    tags: worker
+
+  - name: copy
+    copy:
+        src: /home/ubuntu/kubernetes/info.txt
+        dest: /home/ubuntu/
+    tags: copy
+  - name: joining
+    shell: sed -n '66,67p' info.txt
+    tags: kube
+    register: kube
+  - shell: "{{ kube.stdout }}"
+    tags: kube1
