@@ -45,7 +45,7 @@
   - name: kubernetes
     shell: sudo apt-mark hold kubeadm kubelet kubectl
     tags: hold
-     - name: swap
+  - name: swap
     shell: sudo swapoff –a
     ignore_errors: yes
   - name: assigning name to machine
