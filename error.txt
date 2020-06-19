@@ -1,0 +1,5 @@
+Warning  FailedCreatePodSandBox  1s               kubelet, worker-node-154  Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "3a0c7cc1ed01d73fe779af669d3ac1c4d5fb7758a23350bf43089ad49c5f8d9e" network for pod "bcce-cms-5b5d6dd69c-bh8b8": networkPlugin cni failed to set up pod "bcce-cms-5b5d6dd69c-bh8b8_default" network: failed to set bridge addr: "cni0" already has an IP address different from 10.244.3.1/24
+
+On worker node, delete cni0 and rejoin the cluster
+
+sudo ip link delete cni0 

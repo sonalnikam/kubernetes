@@ -1,0 +1,60 @@
+140  apt install openshift >= 0.6
+  141  pip install openshift>=0.6
+  142  pip install openshift
+  143  pip install PyYAML
+  144  pip install openshift
+  145  pip list
+  
+  RUN it as a root user
+  146  ansible-playbook k8s.yml -i host -vvv
+  147  vi k8s.yml
+  148  ansible-playbook k8s.yml -i host --check
+  149  ansible-playbook k8s.yml -i host -c
+  150  ansible-playbook k8s.yml -i host --check
+  151  ansible-playbook --version
+  152  ansible --version
+  153  sudo apt-get remove --purge ansible
+  154  sudo apt-add-repository ppa:ansible/ansible
+  155  sudo apt-get update
+  156  sudo apt-get install ansible
+  157  ansible --version
+  158  ansible-playbook k8s.yml -i host --check
+  159  sudo pip install --upgrade --user openshift
+  160  sudo pip install --upgrade --user PyYAML
+  161  sudo pip install --upgrade --user kubernetes
+  162  ansible-playbook k8s.yml -i host --check
+  163  kubectl get namespace
+  164  ansible-playbook k8s.yml -i host -vvv
+  165  history
+
+
+ sed -n '66,67p' info1.txt
+
+
+ sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*
+ sudo apt-get purge docker*
+
+
+
+NOTE: pip install openshift pyyaml kubernetes 
+
+If IP ISSUE of kubernetes run this on master: 
+Run these commands solved this issue:
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+Uninstall Docker:
+dpkg -l | grep -i docker
+To identify what installed package you have:
+
+Step 2
+
+sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli
+sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce  
+
+sudo rm -rf /var/lib/docker /etc/docker
+sudo rm /etc/apparmor.d/docker
+sudo groupdel docker
+sudo rm -rf /var/run/docker.sock

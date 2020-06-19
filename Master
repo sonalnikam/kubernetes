@@ -1,0 +1,85 @@
+https://phoenixnap.com/kb/install-kubernetes-on-ubuntu
+
+
+MASTER-KUBERNETES
+
+sudo apt-get update
+
+sudo apt-get install docker.io
+
+docker ––version
+sudo systemctl enable docker
+sudo systemctl status docker
+sudo systemctl start docker
+
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-get install curl
+
+
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+sudo apt-get install kubeadm kubelet kubectl
+sudo apt-mark hold kubeadm kubelet kubectl
+kubeadm version
+
+sudo swapoff –a
+ASSIGNING NAME TO THE MACHINE:
+sudo hostnamectl set-hostname master-node
+
+NETWORK:
+
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+Once this command finishes, it will display a kubeadm join message at the end.
+Make a note of the whole entry.
+This will be used to join the worker nodes to the cluster :
+
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+A Pod Network is a way to allow communication between different nodes in the cluster. This tutorial uses the flannel virtual network.
+
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+kubectl get pods --all-namespaces
+
+Anisble and Master Node(Make sure u run it as a root user) :::
+sudo apt-get update
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-get install curl
+
+
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+sudo apt-get install kubeadm kubelet kubectl
+sudo apt-mark hold kubeadm kubelet kubectl
+kubeadm version
+
+ apt install python
+ apt-get install sshpass
+   34  sudo pip install --upgrade --user openshift
+   35  apt install python-pip
+   36  sudo pip install --upgrade --user openshift
+  sudo pip install --upgrade --user PyYAML 
+   37  kubectl get pods --all-namespaces
+   38  kubectl get namespace
+
+
+worker node:
+make sure ports are open on master-node(example on aws i made it all for inbound and anywhere) :
+
+kubeadm join --discovery-token abcdef.1234567890abcdef --discovery-token-ca-cert-hash sha256:1234..cdef 1.2.3.4:6443
+
+kubectl get nodes
+
+
+If IP ISSUE of kubernetes run this on master: 
+Run these commands solved this issue:
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+

@@ -1,0 +1,2 @@
+vi /etc/ssh/sshd_config   permision yes
+sudo systemctl restart sshd
