@@ -1,0 +1,81 @@
+---
+- hosts: master
+  become: yes
+  tasks:
+  - name: upadte repo
+    shell: sudo apt-get update
+  - name: docker installation
+    apt:
+       name: docker.io
+       state: latest
+    tags: docker
+  - name: enabling docker
+    shell: sudo systemctl enable docker
+    tags: enable
+  - name: start docker
+    shell: sudo systemctl start docker
+    tags: start
+#  - name: installing curl
+#    apt:
+#       name: curl
+#       state: latest
+  - name: adding key
+    shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+    tags: add
+  - name: curl
+    shell: sudo apt-get install curl
+  - name: addling repo
+    shell: sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    tags: repo
+  - name: installing kubernetes
+    apt:
+       name: kubeadm
+       state: latest
+    tags: k1
+  - name: installing kubernetes
+    apt:
+       name: kubelet
+       state: latest
+    tags: k2
+  - name: installing kubernetes
+    apt:
+       name: kubectl
+       state: latest
+    tags: k3
+  - name: kubernetes
+    shell: sudo apt-mark hold kubeadm kubelet kubectl
+    tags: hold
+     - name: swap
+    shell: sudo swapoff –a
+    ignore_errors: yes
+  - name: assigning name to machine
+    shell: sudo hostnamectl set-hostname master-node
+    tags: hostname
+  - name: creating file
+    shell: touch /home/ubuntu/info.txt
+    tags: create
+  - name: setting pd network
+    shell: sudo kubeadm init --pod-network-cidr=10.244.0.0/16 >> /home/ubuntu/info.txt
+    tags: network
+  - name: make kube dir
+    shell: mkdir -p $HOME/.kube
+    tags: dir
+  - name: copying the configuration file
+    shell: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    tags: config
+  - name: permission
+    shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    tags: permission
+  - name: fannel
+    shell: sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  - name: Ansible configuration packages python
+    apt:
+       name: python
+       state: latest
+  - name: Ansible configuration packages pip
+    apt:
+       name: python-pip
+       state: latest
+  - name: Ansible configuration packages openshift
+    shell: pip install openshift pyyaml kubernetes
+
